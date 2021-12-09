@@ -1,0 +1,38 @@
+import RPi.GPIO as GPIO
+from time import sleep, strftime , time
+from datetime import datetime
+import math
+from subprocess import *
+
+GPIO.setmode(GPIO.BCM)
+TRIG=23
+ECHO=24
+GPIO.setup(TRIG, GPIO.OUT)
+GPIO.setup(ECHO, GPIO.IN)
+
+GPIO.output(TRIG,0)
+print("Start le sensor")
+sleep(2)
+try:
+    while True:
+        GPIO.output(TRIG,1)
+        sleep(0.00001)
+        GPIO.output(TRIG,0)
+        while GPIO.input(ECHO) == 0:
+            TD = time()
+        while GPIO.input(ECHO) == 1:
+            TF = time()
+    
+        T= TF-TD
+        V= 34300
+        D= (V*T)/2
+        D= round(D,2)
+        print("Distance:",D ,"CM")
+        sleep(0.5)
+        print ("Distance:" , D , "cm")
+        lcd.lcd_display_string("distance : %s" %D ,1)
+    if d < 20,00:
+        lcd.lcd_clear()
+        lcd.lcd_display_scring("Danger!" ,1)
+except KeyboardInterrupt:
+    GPIO.cleanup()
